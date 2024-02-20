@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .input{
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #right {
+            background: rgb(152, 152, 202);
+    padding-bottom: 200px;
+    padding-top:200px ;
+    padding-left: 100px;
+    padding-right: 100px;
+   text-align: center;
+   margin-top: 20px;
+   font-size: 20px;
+   font-weight: bold;
+}
+
+button{
+    font-size: 20px;
+    font-weight: bold;
+
+}
+    </style>
+</head>
+<body>
+
+    <div id="parent">
+
+
+        <div id="right">
+
+            <form action="/Registration" method="post">
+                <h1 style="color: white;">SignUp</h1>
+                <div class="input">
+                    <label for="user">FirstName </label>
+                    <input type="text" id="user" placeholder=" Enter FirstName" name="FirstName" required >&#160&#160&#160&#160
+
+                    <label for="user">LastName</label>
+                    <input type="text" id="user" placeholder=" Enter LastName" name="LastName" required>
+
+                </div><br>
+
+                <div class="input">&nbsp;&nbsp;
+                    <label for="mail">Email </label>
+                    <input type="email" id="mail" placeholder="Enter Email" name="email" required>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <label for="Password">Password </label>
+                    <input type="Password" id="Password" placeholder="Enter Password" name="Password" required>
+                </div> <br>
+
+                <!-- <div class="input">
+                    <label for="pass">Password </label>
+                    <input type="password" id="pass" placeholder="Enter Password">
+                </div> -->
+
+                <div id="btn">
+                    <button type="submit" style="border-radius: 5px;">Submit</button>
+                </div>
+                
+</body>
+</html>
