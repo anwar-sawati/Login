@@ -8,7 +8,10 @@ const ejs= require("ejs")
 const connection= require("../db/connection")
 const loginModel = require("../db/login");
 const Registration   = require("../db/Reg")
-const bodyParser=require("body-parser")
+const UserDetials = require("../db/userDetials")
+const bodyParser=require("body-parser");
+
+const bcrypt = require("bcrypt")
  //require("./db")
  //bodyParser = require("body-parser")
  
@@ -25,9 +28,18 @@ app.set("view engine", "ejs")
 app.set("views",templatePath)
 //hbs.registerPartials(partialpath);
 
-
+app.use(express.static(templatePath))
 app.use(express.json())
 app.use(express.urlencoded({ extended:false }));
+
+//app.use(express.static(path.join(__dirname,  "../Templates/views/assets/css")))
+// app.use(express.static("public"))
+// app.use("/css",express.static(__dirname+'public/assets/css'))
+// app.use("/js",express.static(__dirname+'public/assets/js'))
+// app.use("/img",express.static(__dirname+'public/assets/img'))
+
+// app.use("/swf",express.static(__dirname+'public/assets/swf'))
+// app.use("/vendor",express.static(__dirname+'public/assets/vendor'))
 
  
 
@@ -35,13 +47,17 @@ app.use(express.urlencoded({ extended:false }));
 
 
  app.get("/login", (req,res)=>{
-   res.render("login")
+   res.render("page-login")
  });
+
 
  app.get("/Registration",(req, res)=>{
-  res.render("Registration")
+  res.render("pages-register")
  });
 
+app.get("/UserDetials", (req,res)=>{
+  res.render("users-profile")
+})
  
 
 
@@ -49,18 +65,23 @@ app.use(express.urlencoded({ extended:false }));
  app.post("/login", async(req, res)=>{
 
   try {
-    const email = req.body.email;
-const Password = req.body.Password
-console.log(email)
-console.log(Password)
-   const useremail= await Registration.findOne({email:email})
+    // 1st method..............
+//     const email = req.body.email;
+// const Password = req.body.Password
+//  2nd  method ....................................
+const {email,Password}= req.body;
+
+   const useremail= await Registration.findOne({email})
+  //  const cpassword= await bcrypt.compare(Password,useremail.Password)
+  // console.log(cpassword);
+
    console.log(useremail)
    if(!useremail){
    return res.send("user not found")
-
+   
    }
    if(useremail.Password===parseInt(Password)){
-    res.render("web")
+    res.render("index")
     //res.send("wellcome")
 
    }
@@ -85,37 +106,57 @@ console.log(Password)
 //    Password:req.body.password,
      
 // }
-
-
 // const userdata= await loginModel.insertMany(data)
 // console.log(userdata)
-
-// email=req.body.email
-// password=req.body.Password
 
 
 
 // for Registration...............................................
 
 app.post("/Registration", async(req, res)=>{
-const Regdata={
+  //  1st Method >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// const Regdata={
+//   FirstName :req.body.FirstName,
+//   LastName:req.body.LastName,
+//   email:req.body.email,
+//    Password:req.body.Password,
+// }
 
-  FirstName :req.body.FirstName,
-  LastName:req.body.LastName,
-  email:req.body.email,
-   Password:req.body.Password,
-}
-  
+// 2nd Method >>>>>>>>>>>>>>>>>>>>>>>>
+const Regdata={FirstName, LastName, email, Password}= req.body;
+   
+
   const RegUser= await Registration.insertMany(Regdata)
+  
+  // const cpassword= await bcrypt.compare(Password, RegUser.Password)
+  // RegUser.save();
+  // console.log(cpassword);
   console.log(RegUser)
-  res.send(RegUser)
+  res.render("page-login")
+})
 
-// email=req.body.email
-// Password=req.body.Password
 
-//    const useremail= await Registration.findOne({email:email})
-//    console.log(useremail)
+app.post("/UserDetials", async(req,res)=>{
 
+
+const Userdata={
+FullName,
+    About,
+    Company,
+    Job,
+    Country,
+    Address,
+    Phone,
+    email,
+    TwitterProfile,
+    FacebookProfile,
+    InstagramProfile,
+    LinkedinProfile}=req.body;
+  
+const User= await UserDetials.insertMany(Userdata)
+   console.log(User)
+   res.send(User)
+   
 //    if(useremail.Password==(Password)){
 //     res.send("wellcome")
 //    }
@@ -123,14 +164,14 @@ const Regdata={
 //     res.send("wrong user")
 //    }
    
-       })
+})
 
 
   
 
 
 
-   
+   app.get('/')
 
 
 
